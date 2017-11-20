@@ -1,0 +1,6 @@
+[submodule "foxyext"]
+	path = foxyext
+	url = https://github.com/tamarahills/foxyext.git
+[submodule "root/Applications/Foxy.app/Resources/foxycli"]
+	path = root/Applications/Foxy.app/Resources/foxycli
+	url = https://github.com/tamarahills/foxycli.git

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.example.foxy.mozilla</string>
+    <key>UserName</key>
+    <string>root</string>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/Applications/Foxy.app/Resources/node/bin/node</string>
+      <string>/Applications/Foxy.app/Resources/foxycli/index.js</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>OnDemand</key>
+    <false/>
+    <key>LaunchOnlyOnce</key>
+    <true/>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>PATH</key>
+      <string>/Applications/Foxy.app/Resources/cellar/bin:/Applications/Foxy.app/Resources/node/bin</string>
+    </dict>
+    <key>StandardErrorPath</key>
+    <string>/tmp/com.example.foxy.mozilla.err</string>
+    <key>StandardOutPath</key>
+    <string>/tmp/com.example.foxy.mozilla.out</string>
+  </dict>
+</plist>
