@@ -1,0 +1,8 @@
+.vscode
+.homebrew
+root/Applications/Foxy.app/Resources/cellar
+root/Applications/Foxy.app/Resources/node
+build
+node_modules
+.env
+**/*.xpi

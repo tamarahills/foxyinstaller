@@ -1,0 +1,37 @@
+#!/bin/sh
+
+echo "Running foxycli postinstall"
+echo "Destination folder: $2"
+
+
+FOXY_PATH="$2Applications/Foxy.app"
+FOXY_CLI=$FOXY_PATH/Resources/foxycli
+PATH="${FOXY_PATH}/cellar/bin:${FOXY_PATH}/node/bin:$PATH"
+
+
+# Add or Skip Model
+MODEL_PATH="$FOXY_CLI/resources"
+MODEL_FILE="$MODEL_PATH/Hey_Foxy.pmdl"
+if ! test -f $MODEL_FILE; then
+    cp $MODEL_PATH/Hey_Foxy.pmdl.original $MODEL_FILE
+fi
+
+# Make config.json
+CONFIG_FILE="$FOXY_CLI/config/config.json"
+if ! test -f $CONFIG_FILE; then
+    # It's a clean install
+    touch $CONFIG_FILE
+    echo '{
+        "GAProperty": "UA-35433268-85",
+        "pocketconsumerkey": "70736-2005e161243be6d212d136d1"
+    }
+    ' > $CONFIG_FILE
+fi
+
+# Fix Permissions
+chown -R $USER:staff $FOXY_PATH
+
+# Load Launch Agent
+launchctl load /Library/LaunchAgents/com.example.foxy.mozilla.plist
+
+exit 0

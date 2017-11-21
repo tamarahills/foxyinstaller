@@ -1,0 +1,7 @@
+{
+  "name": "foxycli",
+  "description": "Hey Foxy Clinet",
+  "path": "/Applications/Foxy.app/Resources/startup.sh",
+  "type": "stdio",
+  "allowed_extensions": ["foxycli@example.com"]
+}

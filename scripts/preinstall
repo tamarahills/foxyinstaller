@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ -f "$HOME/Library/Application\ Support/Mozilla/NativeMessagingHosts/foxycli.json" ]; then
+  rm -rf $HOME/Library/Application\ Support/Mozilla/NativeMessagingHosts/foxycli.json
+fi
+
+if [ -d "/Applications/FoxyExtension" ]; then
+  PATH="$PATH:/Applications/FoxyExtension/libs/node/bin" /Applications/FoxyExtension/src/foxycli/node_modules/pm2/bin/pm2 kill
+  rm -rf /Applications/FoxyExtension
+fi
+
+launchctl unload /Library/LaunchAgents/com.example.foxy.mozilla.plist
+
+exit 0
