@@ -1,37 +1,55 @@
 #!/bin/sh
 
-echo "Running foxycli postinstall"
+echo "Running Foxy postinstall"
 echo "Destination folder: $2"
-
 
 FOXY_PATH="$2Applications/Foxy.app"
 FOXY_CLI=$FOXY_PATH/Resources/foxycli
 PATH="${FOXY_PATH}/cellar/bin:${FOXY_PATH}/node/bin:$PATH"
 
+echo "Setting  variables:"
+echo "\tApplication Path: ${FOXY_PATH}"
+echo "\tFoxy Client Path: ${FOXY_CLI}"
+echo "\tInclude Path: ${PATH}"
+
 
 # Add or Skip Model
 MODEL_PATH="$FOXY_CLI/resources"
 MODEL_FILE="$MODEL_PATH/Hey_Foxy.pmdl"
+echo "Add or Skip Snowboy Model"
+echo "\tSnowboy Model Path: ${MODEL_PATH}"
 if ! test -f $MODEL_FILE; then
-    cp $MODEL_PATH/Hey_Foxy.pmdl.original $MODEL_FILE
+  echo "\tHey_Foxy.pmdl was not found."
+  echo "\tCopy default Snowboy model: \`cp $MODEL_PATH/Hey_Foxy.pmdl.original $MODEL_FILE\`"
+  cp $MODEL_PATH/Hey_Foxy.pmdl.original $MODEL_FILE
+else
+  echo "\tHey_Foxy.pmdl was found on $MODEL_FILE. Skipping..."
 fi
 
 # Make config.json
+echo "Making default config.json"
 CONFIG_FILE="$FOXY_CLI/config/config.json"
+echo "\tconfig.json path: ${CONFIG_FILE}"
 if ! test -f $CONFIG_FILE; then
-    # It's a clean install
-    touch $CONFIG_FILE
-    echo '{
-        "GAProperty": "UA-35433268-85",
-        "pocketconsumerkey": "70736-2005e161243be6d212d136d1"
-    }
-    ' > $CONFIG_FILE
+  echo "\tconfig.json was not found."
+  touch $CONFIG_FILE
+  echo '{
+      "GAProperty": "UA-35433268-85",
+      "pocketconsumerkey": "70736-2005e161243be6d212d136d1"
+  }
+  ' > $CONFIG_FILE
+  echo "\tCreating config.json"
+  echo "\t{ \"GAProperty\": \"UA-35433268-85\", \"pocketconsumerkey\": \"70736-2005e161243be6d212d136d1\" }"
+else
+  echo "\tconfig.json was found $FOXY_CLI/config/config.json. Skipping..."
 fi
 
-# Fix Permissions
+echo "Change permissions for $FOXY_PATH to $USER:staff"
 chown -R $USER:staff $FOXY_PATH
 
-# Load Launch Agent
+echo "Load Launch Agent"
+echo "\tlaunchctl load /Library/LaunchAgents/com.example.foxy.mozilla.plist"
 launchctl load /Library/LaunchAgents/com.example.foxy.mozilla.plist
 
+echo "Finished Foxy postinstall"
 exit 0

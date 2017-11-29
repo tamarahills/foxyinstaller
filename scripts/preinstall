@@ -1,14 +1,28 @@
 #!/bin/sh
 
+echo "Running Foxy preinstall"
+
+echo "Checking $HOME/Library/Application\ Support/Mozilla/NativeMessagingHosts/foxycli.json"
 if [ -f "$HOME/Library/Application\ Support/Mozilla/NativeMessagingHosts/foxycli.json" ]; then
+  echo "\tRemove $HOME/Library/Application\ Support/Mozilla/NativeMessagingHosts/foxycli.json from HOME directory."
+  echo "\tWill be installed to /Library/Application\ Support instead of ~/Library/Application\ Support"
   rm -rf $HOME/Library/Application\ Support/Mozilla/NativeMessagingHosts/foxycli.json
 fi
 
+echo "Checking /Applications/FoxyExtension"
 if [ -d "/Applications/FoxyExtension" ]; then
+  echo "\tStop PM2 daemon."
+  echo "\tRemove /Applications/FoxyExtension."
+  echo "\tNew path will be /Applications/Foxy.app"
   PATH="$PATH:/Applications/FoxyExtension/libs/node/bin" /Applications/FoxyExtension/src/foxycli/node_modules/pm2/bin/pm2 kill
   rm -rf /Applications/FoxyExtension
 fi
 
-launchctl unload /Library/LaunchAgents/com.example.foxy.mozilla.plist
+echo "Unload Launch Agent"
+if [ -f "/Library/LaunchAgents/com.example.foxy.mozilla.plist" ]; then
+  echo "\tlaunchctl unload /Library/LaunchAgents/com.example.foxy.mozilla.plist"
+  launchctl unload /Library/LaunchAgents/com.example.foxy.mozilla.plist
+fi
 
+echo "Finished Foxy preinstall"
 exit 0
